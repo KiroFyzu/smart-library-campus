@@ -6,6 +6,22 @@ document.addEventListener('DOMContentLoaded', function() {
   if (toggleBtn && sidebar) {
     toggleBtn.addEventListener('click', function() {
       sidebar.classList.toggle('active');
+      document.body.classList.toggle('sidebar-open', sidebar.classList.contains('active'));
+    });
+
+    sidebar.querySelectorAll('.nav-link').forEach(function(link) {
+      link.addEventListener('click', function() {
+        sidebar.classList.remove('active');
+        document.body.classList.remove('sidebar-open');
+      });
+    });
+
+    document.addEventListener('click', function(event) {
+      if (!sidebar.classList.contains('active')) return;
+      if (sidebar.contains(event.target) || toggleBtn.contains(event.target)) return;
+
+      sidebar.classList.remove('active');
+      document.body.classList.remove('sidebar-open');
     });
   }
 
