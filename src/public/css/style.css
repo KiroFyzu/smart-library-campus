@@ -283,6 +283,29 @@ main {
   min-width: 0;
 }
 
+.navbar-profile-photo,
+.navbar-profile-placeholder {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border-radius: 50%;
+}
+
+.navbar-profile-photo {
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  box-shadow: 0 6px 14px rgba(15, 107, 79, 0.16);
+}
+
+.navbar-profile-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--uin-primary);
+  background: var(--uin-primary-soft);
+  font-size: 1rem;
+}
+
 footer {
   background: rgba(255, 255, 255, 0.62);
 }

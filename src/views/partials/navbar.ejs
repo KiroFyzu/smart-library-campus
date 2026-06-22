@@ -17,7 +17,11 @@
       </a>
       <div class="dropdown">
         <a class="btn btn-light dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown">
-          <i class="bi bi-person-circle fs-5"></i>
+          <% if (locals.navPhotoUrl) { %>
+            <img src="<%= navPhotoUrl %>" alt="Foto profil <%= user.name %>" class="navbar-profile-photo">
+          <% } else { %>
+            <span class="navbar-profile-placeholder"><i class="bi bi-person"></i></span>
+          <% } %>
           <span class="d-none d-md-inline"><%= user.name %></span>
           <span class="badge bg-secondary"><%= user.role %></span>
         </a>

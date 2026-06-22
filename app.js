@@ -38,12 +38,24 @@ app.use(session({
 app.use(flash());
 
 // ─── Global Variables for Views ──────────────────────────────────────────────
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   res.locals.user = req.session.user || null;
   res.locals.success_msg = req.flash('success');
   res.locals.error_msg = req.flash('error');
   res.locals.currentPath = req.path;
   res.locals.helpers = require('./src/utils/helpers');
+  res.locals.navPhotoUrl = null;
+
+  if (req.session.user && req.session.user.photo) {
+    try {
+      const { getPresignedUrl } = require('./src/config/minio');
+      const { BUCKETS } = require('./src/config/constants');
+      res.locals.navPhotoUrl = await getPresignedUrl(BUCKETS.PHOTOS, req.session.user.photo);
+    } catch {
+      res.locals.navPhotoUrl = null;
+    }
+  }
+
   next();
 });
 
