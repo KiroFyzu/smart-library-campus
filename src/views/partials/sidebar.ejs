@@ -1,56 +1,63 @@
 <% const role = locals.user ? user.role : ''; %>
-<nav id="sidebar" class="bg-dark text-white">
-  <div class="sidebar-header text-center py-4">
-    <i class="bi bi-book fs-2"></i>
-    <h5 class="mt-2 mb-0 fw-bold">Perpustakaan</h5>
-    <small class="text-white-50">Digital Kampus</small>
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <div class="d-flex align-items-center gap-3">
+      <div class="sidebar-brand-mark">
+        <i class="bi bi-book-half fs-4"></i>
+      </div>
+      <div>
+        <div class="sidebar-kicker">UIN Library</div>
+        <h5 class="mt-1 mb-0 fw-bold">Perpustakaan</h5>
+        <small class="text-white-50">Digital Kampus</small>
+      </div>
+    </div>
   </div>
 
   <ul class="nav flex-column px-2">
     <% if (role === 'admin') { %>
       <li class="nav-item">
-        <a class="nav-link text-white <%= currentPath === '/dashboard' ? 'active bg-primary rounded' : '' %>" href="/dashboard">
+        <a class="nav-link <%= currentPath === '/dashboard' ? 'active' : '' %>" href="/dashboard">
           <i class="bi bi-speedometer2 me-2"></i> Dashboard
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white <%= currentPath.startsWith('/books') ? 'active bg-primary rounded' : '' %>" href="/books">
+        <a class="nav-link <%= currentPath.startsWith('/books') ? 'active' : '' %>" href="/books">
           <i class="bi bi-collection me-2"></i> Kelola Buku
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white <%= currentPath.startsWith('/categories') ? 'active bg-primary rounded' : '' %>" href="/categories">
+        <a class="nav-link <%= currentPath.startsWith('/categories') ? 'active' : '' %>" href="/categories">
           <i class="bi bi-tags me-2"></i> Kategori
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white <%= currentPath.startsWith('/borrow') ? 'active bg-primary rounded' : '' %>" href="/borrow/history">
+        <a class="nav-link <%= currentPath.startsWith('/borrow') ? 'active' : '' %>" href="/borrow/history">
           <i class="bi bi-arrow-left-right me-2"></i> Peminjaman
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white <%= currentPath.startsWith('/ebooks') ? 'active bg-primary rounded' : '' %>" href="/ebooks">
+        <a class="nav-link <%= currentPath.startsWith('/ebooks') ? 'active' : '' %>" href="/ebooks">
           <i class="bi bi-file-earmark-pdf me-2"></i> E-Book
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white" href="/borrow/overdue">
+        <a class="nav-link <%= currentPath === '/borrow/overdue' ? 'active' : '' %>" href="/borrow/overdue">
           <i class="bi bi-exclamation-triangle me-2"></i> Terlambat
         </a>
       </li>
     <% } else { %>
       <li class="nav-item">
-        <a class="nav-link text-white <%= currentPath.startsWith('/books') ? 'active bg-primary rounded' : '' %>" href="/books">
+        <a class="nav-link <%= currentPath.startsWith('/books') ? 'active' : '' %>" href="/books">
           <i class="bi bi-search me-2"></i> Jelajahi Buku
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white <%= currentPath.startsWith('/borrow') ? 'active bg-primary rounded' : '' %>" href="/borrow/history">
+        <a class="nav-link <%= currentPath.startsWith('/borrow') ? 'active' : '' %>" href="/borrow/history">
           <i class="bi bi-journal-arrow-down me-2"></i> Peminjaman Saya
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white <%= currentPath.startsWith('/ebooks') ? 'active bg-primary rounded' : '' %>" href="/ebooks">
+        <a class="nav-link <%= currentPath.startsWith('/ebooks') ? 'active' : '' %>" href="/ebooks">
           <i class="bi bi-file-earmark-pdf me-2"></i> E-Book
         </a>
       </li>
@@ -60,7 +67,7 @@
       <hr class="text-white-50">
     </li>
     <li class="nav-item">
-      <a class="nav-link text-white <%= currentPath.startsWith('/notifications') ? 'active bg-primary rounded' : '' %>" href="/notifications">
+      <a class="nav-link <%= currentPath.startsWith('/notifications') ? 'active' : '' %>" href="/notifications">
         <i class="bi bi-bell me-2"></i> Notifikasi
         <% if (locals.unreadCount && unreadCount > 0) { %>
           <span class="badge bg-danger ms-auto"><%= unreadCount %></span>
@@ -68,7 +75,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-white <%= currentPath.startsWith('/profile') ? 'active bg-primary rounded' : '' %>" href="/profile">
+      <a class="nav-link <%= currentPath.startsWith('/profile') ? 'active' : '' %>" href="/profile">
         <i class="bi bi-person-circle me-2"></i> Profil Saya
       </a>
     </li>

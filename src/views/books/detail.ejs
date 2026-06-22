@@ -19,7 +19,7 @@
               <h3 class="fw-bold"><%= book.title %></h3>
               <p class="text-muted mb-1"><i class="bi bi-person me-1"></i> <%= book.author %></p>
               <% if (book.category_name) { %>
-                <span class="badge bg-info"><%= book.category_name %></span>
+                <span class="badge badge-soft-info"><%= book.category_name %></span>
               <% } %>
             </div>
             <% if (locals.user && user.role === 'admin') { %>
@@ -39,9 +39,9 @@
             <tr><td class="text-muted">Stok</td><td><%= book.stock %> eksemplar</td></tr>
             <tr><td class="text-muted">Tersedia</td><td>
               <% if (book.available > 0) { %>
-                <span class="badge bg-success"><%= book.available %> tersedia</span>
+                <span class="badge badge-available"><%= book.available %> tersedia</span>
               <% } else { %>
-                <span class="badge bg-danger">Tidak tersedia</span>
+                <span class="badge badge-unavailable">Tidak tersedia</span>
               <% } %>
             </td></tr>
           </table>

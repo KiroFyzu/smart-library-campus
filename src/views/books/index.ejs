@@ -55,9 +55,9 @@
                 <div class="book-author"><%= book.author %></div>
                 <div class="mt-2">
                   <% if (book.available > 0) { %>
-                    <span class="badge bg-success">Tersedia (<%= book.available %>)</span>
+                    <span class="badge badge-available">Tersedia (<%= book.available %>)</span>
                   <% } else { %>
-                    <span class="badge bg-danger">Habis</span>
+                    <span class="badge badge-unavailable">Habis</span>
                   <% } %>
                 </div>
               </div>
