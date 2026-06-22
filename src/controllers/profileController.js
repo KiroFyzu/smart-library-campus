@@ -92,3 +92,29 @@ exports.uploadPhoto = async (req, res) => {
     res.redirect('/profile');
   }
 };
+
+exports.deletePhoto = async (req, res) => {
+  try {
+    const userId = req.session.user.id;
+    const user = User.findById(userId);
+
+    if (!user || !user.photo) {
+      req.flash('error', 'Foto profil tidak ditemukan.');
+      return res.redirect('/profile');
+    }
+
+    try { await deleteFile(BUCKETS.PHOTOS, user.photo); } catch {}
+
+    User.updatePhoto(userId, null);
+    req.session.user.photo = null;
+
+    logAction(userId, ACTIONS.PROFILE_UPDATE, 'Profile photo deleted', req.ip);
+
+    req.flash('success', 'Foto profil berhasil dihapus.');
+    res.redirect('/profile');
+  } catch (err) {
+    console.error('Photo delete error:', err);
+    req.flash('error', 'Gagal menghapus foto.');
+    res.redirect('/profile');
+  }
+};

@@ -9,5 +9,6 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 2 *
 router.get('/profile', isAuthenticated, profileController.viewProfile);
 router.post('/profile', isAuthenticated, profileController.updateProfile);
 router.post('/profile/photo', isAuthenticated, upload.single('photo'), profileController.uploadPhoto);
+router.post('/profile/photo/delete', isAuthenticated, profileController.deletePhoto);
 
 module.exports = router;
