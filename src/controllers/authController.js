@@ -19,11 +19,12 @@ exports.login = (req, res) => {
     return res.redirect('/login');
   }
 
-  const { email, password } = req.body;
-  const user = User.findByEmail(email);
+  const { identifier, email, password } = req.body;
+  const loginIdentifier = (identifier || email || '').trim();
+  const user = User.findByEmailOrNim(loginIdentifier);
 
   if (!user) {
-    req.flash('error', 'Email tidak terdaftar.');
+    req.flash('error', 'Email atau NIM tidak terdaftar.');
     return res.redirect('/login');
   }
 

@@ -9,7 +9,7 @@ router.get('/login', isGuest, authController.loginPage);
 
 // POST /login
 router.post('/login', [
-  body('email').isEmail().withMessage('Email tidak valid'),
+  body('identifier').trim().notEmpty().withMessage('Email atau NIM wajib diisi'),
   body('password').notEmpty().withMessage('Password wajib diisi')
 ], authController.login);
 

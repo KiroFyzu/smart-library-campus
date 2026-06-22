@@ -1,3 +1,6 @@
+# Ignore everything in the root directory
+.qoder
+
 node_modules/
 database/*.db
 database/sessions.db

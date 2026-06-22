@@ -14,6 +14,10 @@ const User = {
     return db.prepare('SELECT * FROM users WHERE email = ?').get(email);
   },
 
+  findByEmailOrNim(identifier) {
+    return db.prepare('SELECT * FROM users WHERE email = ? OR nim = ?').get(identifier, identifier);
+  },
+
   findByUsername(username) {
     return db.prepare('SELECT * FROM users WHERE username = ?').get(username);
   },

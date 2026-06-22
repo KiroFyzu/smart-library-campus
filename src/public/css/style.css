@@ -194,6 +194,12 @@ body.sidebar-open::after {
   box-shadow: 0 14px 24px rgba(0, 0, 0, 0.16);
 }
 
+.sidebar-brand-mark img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
 .sidebar-kicker {
   color: rgba(255, 255, 255, 0.68);
   font-size: 0.72rem;
