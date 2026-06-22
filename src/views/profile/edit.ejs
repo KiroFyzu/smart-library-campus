@@ -1,0 +1,129 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- Profile Photo Section -->
+    <div class="col-lg-4 mb-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body text-center p-4">
+          <% if (locals.photoUrl) { %>
+            <img src="<%= photoUrl %>" alt="Profile" class="profile-photo mb-3">
+          <% } else { %>
+            <div class="profile-photo-placeholder mx-auto mb-3">
+              <i class="bi bi-person"></i>
+            </div>
+          <% } %>
+          <h5 class="fw-bold"><%= profile.name %></h5>
+          <span class="badge bg-primary text-capitalize"><%= profile.role %></span>
+          <p class="text-muted small mt-2 mb-0"><%= profile.email %></p>
+
+          <hr>
+          <form action="/profile/photo" method="POST" enctype="multipart/form-data">
+            <div class="mb-2">
+              <input type="file" name="photo" class="form-control form-control-sm" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn btn-sm btn-outline-primary w-100">
+              <i class="bi bi-camera me-1"></i> Update Foto
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Account Info Card -->
+      <div class="card shadow-sm border-0 mt-3">
+        <div class="card-body">
+          <h6 class="fw-bold mb-3"><i class="bi bi-info-circle me-1"></i> Info Akun</h6>
+          <table class="table table-sm table-borderless mb-0">
+            <tr><td class="text-muted">Role</td><td class="fw-semibold text-capitalize"><%= profile.role %></td></tr>
+            <tr><td class="text-muted">Status</td><td><span class="badge bg-success"><%= profile.status %></span></td></tr>
+            <% if (profile.nim) { %><tr><td class="text-muted">NIM</td><td><%= profile.nim %></td></tr><% } %>
+            <% if (profile.nidn) { %><tr><td class="text-muted">NIDN</td><td><%= profile.nidn %></td></tr><% } %>
+            <% if (profile.nip) { %><tr><td class="text-muted">NIP</td><td><%= profile.nip %></td></tr><% } %>
+            <tr><td class="text-muted">Bergabung</td><td><%= new Date(profile.created_at).toLocaleDateString('id-ID') %></td></tr>
+            <tr><td class="text-muted">Login Terakhir</td><td><%= profile.last_login_at ? new Date(profile.last_login_at).toLocaleString('id-ID') : '-' %></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Form -->
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+          <h5 class="fw-bold mb-0"><i class="bi bi-pencil-square me-2"></i>Edit Profil</h5>
+        </div>
+        <div class="card-body p-4">
+          <form action="/profile" method="POST">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">Nama Lengkap</label>
+                <input type="text" name="name" class="form-control" value="<%= profile.name %>" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                <input type="email" name="email" class="form-control" value="<%= profile.email %>" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">No. Telepon</label>
+                <input type="tel" name="phone" class="form-control" value="<%= profile.phone || '' %>">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">Username</label>
+                <input type="text" class="form-control" value="<%= profile.username || '-' %>" disabled>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Alamat</label>
+              <textarea name="address" class="form-control" rows="2"><%= profile.address || '' %></textarea>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">Fakultas</label>
+                <input type="text" name="faculty" class="form-control" value="<%= profile.faculty || '' %>">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">Program Studi</label>
+                <input type="text" name="department" class="form-control" value="<%= profile.department || '' %>">
+              </div>
+            </div>
+
+            <% if (profile.role === 'student') { %>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">NIM</label>
+                  <input type="text" class="form-control" value="<%= profile.nim || '' %>" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">Tahun Angkatan</label>
+                  <input type="number" name="class_year" class="form-control" value="<%= profile.class_year || '' %>" min="2000" max="2099">
+                </div>
+              </div>
+            <% } %>
+
+            <% if (profile.role === 'lecturer') { %>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">NIDN</label>
+                <input type="text" class="form-control" value="<%= profile.nidn || '' %>" disabled>
+              </div>
+            <% } %>
+
+            <% if (profile.role === 'staff' || profile.role === 'admin') { %>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">NIP</label>
+                <input type="text" class="form-control" value="<%= profile.nip || '' %>" disabled>
+              </div>
+            <% } %>
+
+            <div class="d-flex justify-content-end gap-2 mt-3">
+              <a href="/" class="btn btn-outline-secondary">Batal</a>
+              <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i> Simpan Perubahan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

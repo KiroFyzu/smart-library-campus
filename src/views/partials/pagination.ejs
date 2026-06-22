@@ -1,0 +1,32 @@
+<%
+  // Expected locals: currentPage, totalPages, baseUrl (with query string ready for &page=)
+  if (typeof totalPages === 'undefined' || totalPages <= 1) { return ''; }
+  const pages = [];
+  const delta = 2;
+  for (let i = Math.max(1, currentPage - delta); i <= Math.min(totalPages, currentPage + delta); i++) {
+    pages.push(i);
+  }
+%>
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center mb-0">
+    <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+      <a class="page-link" href="<%= baseUrl %>&page=<%= currentPage - 1 %>">&laquo;</a>
+    </li>
+    <% if (pages[0] > 1) { %>
+      <li class="page-item"><a class="page-link" href="<%= baseUrl %>&page=1">1</a></li>
+      <% if (pages[0] > 2) { %><li class="page-item disabled"><span class="page-link">...</span></li><% } %>
+    <% } %>
+    <% pages.forEach(p => { %>
+      <li class="page-item <%= p === currentPage ? 'active' : '' %>">
+        <a class="page-link" href="<%= baseUrl %>&page=<%= p %>"><%= p %></a>
+      </li>
+    <% }); %>
+    <% if (pages[pages.length - 1] < totalPages) { %>
+      <% if (pages[pages.length - 1] < totalPages - 1) { %><li class="page-item disabled"><span class="page-link">...</span></li><% } %>
+      <li class="page-item"><a class="page-link" href="<%= baseUrl %>&page=<%= totalPages %>"><%= totalPages %></a></li>
+    <% } %>
+    <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+      <a class="page-link" href="<%= baseUrl %>&page=<%= currentPage + 1 %>">&raquo;</a>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,44 @@
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0"><i class="bi bi-exclamation-triangle me-2 text-danger"></i>Peminjaman Terlambat</h4>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover table-modern mb-0">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Buku</th>
+              <th>Peminjam</th>
+              <th>Email</th>
+              <th>Tgl Pinjam</th>
+              <th>Tenggat</th>
+              <th>Keterlambatan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (overdueList.length === 0) { %>
+              <tr><td colspan="7" class="text-center py-4 text-muted">Tidak ada peminjaman terlambat.</td></tr>
+            <% } else { %>
+              <% const today = new Date(); %>
+              <% overdueList.forEach((b, i) => { %>
+                <% const dueDate = new Date(b.due_date); const daysLate = Math.ceil((today - dueDate) / (1000*60*60*24)); %>
+                <tr>
+                  <td><%= i + 1 %></td>
+                  <td class="fw-semibold"><%= b.book_title %></td>
+                  <td><%= b.user_name %></td>
+                  <td><%= b.user_email %></td>
+                  <td><%= b.borrow_date %></td>
+                  <td><span class="text-danger fw-semibold"><%= b.due_date %></span></td>
+                  <td><span class="badge bg-danger"><%= daysLate %> hari</span></td>
+                </tr>
+              <% }); %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

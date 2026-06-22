@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0"><i class="bi bi-journal-arrow-down me-2"></i><%= title %></h4>
+  </div>
+
+  <!-- Status Filter -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body py-2">
+      <div class="d-flex gap-2 flex-wrap">
+        <a href="/borrow/history" class="btn btn-sm <%= !selectedStatus ? 'btn-primary' : 'btn-outline-primary' %>">Semua</a>
+        <a href="/borrow/history?status=borrowed" class="btn btn-sm <%= selectedStatus === 'borrowed' ? 'btn-warning' : 'btn-outline-warning' %>">Dipinjam</a>
+        <a href="/borrow/history?status=returned" class="btn btn-sm <%= selectedStatus === 'returned' ? 'btn-success' : 'btn-outline-success' %>">Dikembalikan</a>
+        <a href="/borrow/history?status=overdue" class="btn btn-sm <%= selectedStatus === 'overdue' ? 'btn-danger' : 'btn-outline-danger' %>">Terlambat</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Borrowing Table -->
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover table-modern mb-0">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Buku</th>
+              <% if (isAdmin) { %><th>Peminjam</th><% } %>
+              <th>Tgl Pinjam</th>
+              <th>Tenggat</th>
+              <th>Tgl Kembali</th>
+              <th>Status</th>
+              <th>Denda</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (borrowings.length === 0) { %>
+              <tr><td colspan="<%= isAdmin ? 9 : 8 %>" class="text-center py-4 text-muted">Belum ada data peminjaman.</td></tr>
+            <% } else { %>
+              <% borrowings.forEach((b, i) => { %>
+                <tr>
+                  <td><%= (currentPage - 1) * 20 + i + 1 %></td>
+                  <td class="fw-semibold"><%= b.book_title || 'Unknown' %></td>
+                  <% if (isAdmin) { %><td><%= b.user_name || '-' %></td><% } %>
+                  <td><%= b.borrow_date %></td>
+                  <td><%= b.due_date %></td>
+                  <td><%= b.return_date || '-' %></td>
+                  <td>
+                    <% if (b.status === 'borrowed') { %>
+                      <span class="badge badge-borrowed">Dipinjam</span>
+                    <% } else if (b.status === 'returned') { %>
+                      <span class="badge badge-returned">Dikembalikan</span>
+                    <% } else if (b.status === 'overdue') { %>
+                      <span class="badge badge-overdue">Terlambat</span>
+                    <% } %>
+                  </td>
+                  <td><%= b.fine_amount > 0 ? 'Rp' + b.fine_amount.toLocaleString('id-ID') : '-' %></td>
+                  <td>
+                    <% if (b.status !== 'returned') { %>
+                      <form action="/borrow/<%= b.id %>/return" method="POST" class="d-inline" onsubmit="return confirm('Kembalikan buku ini?')">
+                        <button type="submit" class="btn btn-sm btn-success"><i class="bi bi-arrow-return-left"></i> Kembalikan</button>
+                      </form>
+                    <% } else { %>
+                      <span class="text-muted small">Selesai</span>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }); %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+    <div class="mt-4"><%- include('../partials/pagination') %></div>
+  <% } %>
+</div>
